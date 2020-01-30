@@ -1,0 +1,83 @@
+<ion-header>
+    <ion-toolbar color="primary">
+      <ion-title>Planes de entrenamiento</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  
+  <ion-content class="ion-padding">
+  
+    <ion-segment [(ngModel)]="selectedView">
+      <ion-segment-button value="objetivs">
+        <ion-label>Objetivos</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="plannings">
+        <ion-label>Planes</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+  
+    <div [ngSwitch]="selectedView">
+      <div *ngSwitchCase="'objetivs'">
+        <ion-item>
+          <ion-label position="stacked">Cual es el objetivo?</ion-label>
+          <ion-input [(ngModel)]="objetivo.nombre" placeholder="Nombre del Objetivo"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="stacked">Cuál es el tiempo que tarda el objetivo?</ion-label>
+          <ion-input [(ngModel)]="objetivo.tiempo" placeholder="Tiempo de preferencia"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="stacked">Foto</ion-label>
+          <ion-input [(ngModel)]="objetivo.img" placeholder="https://..."></ion-input>
+        </ion-item>
+        <ion-button expand="block" (click)="addObjetivoP()">Agregar autor</ion-button>
+  
+        <ion-list>
+          <ion-item button *ngFor="let aut of objetivos" [routerLink]="['/', 'objetivos', objetivo.id]">
+            <ion-avatar slot="start">
+              <img [src]="obj.img">
+            </ion-avatar>
+            <ion-label>
+              <h2>{{ obj.nombre }}</h2>
+              <p>{{ obj.tiempo }}</p>
+            </ion-label>
+            <ion-button color="warning" (click)="editObjetivoP(obj.id)">
+              <ion-icon slot="icon-only" name="create"></ion-icon>
+            </ion-button>
+            <ion-button color="danger" (click)="deleteObjetivoP(aut.id)">
+              <ion-icon slot="icon-only" name="trash"></ion-icon>
+            </ion-button>
+          </ion-item>
+        </ion-list>
+      </div>
+  
+      <div *ngSwitchCase="'plannings'">
+        <ion-item>
+          <ion-label position="stacked">Planes</ion-label>
+          <ion-input [(ngModel)]="plan.nombreplan" placeholder="nombreplan"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="stacked">Objetivo</ion-label>
+          <ion-select [(ngModel)]="plan.objetivoId">
+            <ion-select-option *ngFor="let aut of objetivos" [value]="obj.id">{{ obj.nombre }}</ion-select-option>
+          </ion-select>
+        </ion-item>
+        <ion-button expand="block" (click)="addPlanP()">Agregar Plan</ion-button>
+  
+        <ion-list>
+          <ion-item *ngFor="let plannings of libros | async">
+            <ion-label>
+              <h2>{{ planning.nombreplan }}</h2>
+              <p>Objetivo: {{ planning.objetivo_nombre }}</p>
+            </ion-label>
+            <ion-button color="warning" (click)="editPlanP(planning.id)">
+              <ion-icon slot="icon-only" name="create"></ion-icon>
+            </ion-button>
+            <ion-button color="danger" (click)="deletePlanP(planning.id)">
+              <ion-icon slot="icon-only" name="trash"></ion-icon>
+            </ion-button>
+          </ion-item>
+        </ion-list>
+      </div>
+    </div>
+  
+  </ion-content>

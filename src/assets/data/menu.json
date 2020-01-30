@@ -1,0 +1,17 @@
+[
+    {
+      "icon":"appstore",
+      "name":"List",
+      "redirectTo":"/list"
+    },
+    {
+      "icon":"american-football",
+      "name":"Alert",
+      "redirectTo":"/list"
+    },
+    {
+      "icon":"list-box",
+      "name":"Planes de entrenamiento",
+      "redirectTo":"/planes-entrenamiento"
+    }
+]
