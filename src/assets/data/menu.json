@@ -1,13 +1,18 @@
 [
     {
       "icon":"appstore",
-      "name":"List",
+      "name":"Consejos de salud",
       "redirectTo":"/list"
     },
     {
       "icon":"american-football",
       "name":"Alert",
       "redirectTo":"/list"
+    },
+    {
+      "icon":"battery-full",
+      "name":"Ejercicios de gimnasio",
+      "redirectTo":"/ejercicios"
     },
     {
       "icon":"list-box",

@@ -8,7 +8,7 @@ import { AlertController } from "@ionic/angular";
 
 
 @Component({
-  selector: "app-objetivos",
+  selector: "app-planes-entrenamiento",
   templateUrl: "./planes-entrenamiento.page.html",
   styleUrls: ["./planes-entrenamiento.page.scss"]
 })
@@ -40,14 +40,15 @@ export class PlanesEntrenamientoPage implements OnInit {
   }
 
   addObjetivoP() {
-    this.db.addObjetivo(this.objetivo["nombre"], this.objetivo["tiempo"], this.objetivo["img"])
+    this.db
+    .addObjetivo(this.objetivo["nombre"], this.objetivo["tiempo"], this.objetivo["img"])
       .then(_ => {
         this.objetivo = {};
       });
   }
 
   addPlanP() {
-    this.db.addPlan(this.plan["nombreplan"], this.plan["objetivoId"]).then(_ => {
+    this.db.addPlan(this.plan["nombreresultado"], this.plan["objetivoId"]).then(_ => {
       this.plan = {};
     });
   }
@@ -119,7 +120,7 @@ export class PlanesEntrenamientoPage implements OnInit {
               .updateObjetivo({
                 id: objetivo.id,
                 nombre: e.objetivoNombre,
-                genero: e.objetivoTiempo,
+                tiempo: e.objetivoTiempo,
                 img: e.objetivoImg
               })
               .then(_ => {
@@ -135,14 +136,14 @@ export class PlanesEntrenamientoPage implements OnInit {
 
   async presentAlertPlan(plan) {
     const alert = await this.alertController.create({
-      header: "Modificar Plan (Solo nombreplan)",
+      header: "Modificar Plan (Solo nombreresultado)",
       inputs: [
         {
           label: "Nombre:",
-          value: plan.nombreplan,
-          name: "PlanNombreplan",
+          value: plan.nombreresultado,
+          name: "PlanNombreresultado",
           type: "text",
-          placeholder: "Nombreplan Plan"
+          placeholder: "Nombreresultado Plan"
         }
       ],
       buttons: [
@@ -161,7 +162,7 @@ export class PlanesEntrenamientoPage implements OnInit {
             this.db
               .updatePlan({
                 id: plan.id,
-                Nombreplan: e.PlanNombreplan,
+                Nombreplan: e.PlanNombreresultado,
                 objetivoId: plan.objetivoId
               })
               .then(_ => {

@@ -89,19 +89,19 @@ export class DatabaseService {
 
   loadPlanes() {
     let query =
-      "SELECT gim.nombreplan, gim.id, objetivo.nombre AS objetivo_nombre FROM gim JOIN objetivo ON objetivo.id = gim.objetivoId";
+      "SELECT resultado.nombreresultado, resultado.id, objetivo.nombre AS objetivo_nombre FROM resultado JOIN objetivo ON objetivo.id = resultado.objetivoId";
     return this.database.executeSql(query, []).then(data => {
-      let planning = [];
+      let plannings = [];
       if (data.rows.length > 0) {
         for (var i = 0; i < data.rows.length; i++) {
-          planning.push({
+          plannings.push({
             id: data.rows.item(i).id,
-            nombreplan: data.rows.item(i).nombreplan,
+            nombreresultado: data.rows.item(i).nombreresultado,
             objetivo_nombre: data.rows.item(i).objetivo_nombre
           });
         }
       }
-      this.planes.next(planning);
+      this.planes.next(plannings);
     });
   }
 
@@ -140,7 +140,7 @@ export class DatabaseService {
   }
 
   updateObjetivo(objetivox: any) {
-    let data = [objetivox.nombre, objetivox.genero, objetivox.img];
+    let data = [objetivox.nombre, objetivox.tiempo, objetivox.img];
     return this.database
       .executeSql(
         `UPDATE objetivo SET nombre = ?, tiempo = ?, img = ? WHERE id = ${objetivox.id}`,
@@ -151,11 +151,11 @@ export class DatabaseService {
       });
   }
 
-  addPlan(nombreplany, objetivoy) {
-    let data = [nombreplany, objetivoy];
-    console.log(nombreplany, "   ", objetivoy);
+  addPlan(nombreresultadoy, objetivoy) {
+    let data = [nombreresultadoy, objetivoy];
+    console.log(nombreresultadoy, "   ", objetivoy);
     return this.database
-      .executeSql("INSERT INTO gim (nombreplan, objetivoId) VALUES (?, ?)", data)
+      .executeSql("INSERT INTO resultado (nombreresultado, objetivoId) VALUES (?, ?)", data)
       .then(data => {
         this.loadPlanes();
       });
@@ -163,11 +163,11 @@ export class DatabaseService {
 
   getPlan(id): Promise<any> {
     return this.database
-      .executeSql("SELECT * FROM gim WHERE id = ?", [id])
+      .executeSql("SELECT * FROM resultado WHERE id = ?", [id])
       .then(data => {
         return {
           id: data.rows.item(0).id,
-          tiempo: data.rows.item(0).tiempo,
+          nombreresultado: data.rows.item(0).nombreresultado,
           objetivoId: data.rows.item(0).objetivoId
         };
       });
@@ -175,7 +175,7 @@ export class DatabaseService {
 
   deletePlan(id) {
     return this.database
-      .executeSql("DELETE FROM gim WHERE id = ?", [id])
+      .executeSql("DELETE FROM resultado WHERE id = ?", [id])
       .then(_ => {
         this.loadObjetivos();
         this.loadPlanes();
@@ -183,10 +183,10 @@ export class DatabaseService {
   }
 
   updatePlan(plan: any) {
-    let data = [plan.nombreplan, plan.objetivoId];
+    let data = [plan.nombreresultado, plan.objetivoId];
     return this.database
       .executeSql(
-        `UPDATE gim SET nombreplan = ?, objetivoId = ? WHERE id = ${plan.id}`,
+        `UPDATE resultado SET nombreresultado = ?, objetivoId = ? WHERE id = ${plan.id}`,
         data
       )
       .then(data => {
